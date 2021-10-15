@@ -1,0 +1,1 @@
+"D:\Steam Library\steamapps\common\Left 4 Dead 2 Dedicated Server\srcds.exe" -console -game left4dead2 +maxplayers 16 +port 27020 +exec server.cfg +map c1m1_hotel
