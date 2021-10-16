@@ -1,5 +1,6 @@
 const find = require('find-process');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const {ServerDown, ServerUp} = require('../Embeds/premade-embeds')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -11,15 +12,14 @@ module.exports = {
                 .setRequired(true)
                 .addChoice('Left 4 Dead 2','l4d2')),
         async execute(interaction) {
-            await interaction.deferReply();
             switch (interaction.options.getString('game')) {
                 case 'l4d2':
                     await find('name','srcds').then(async (list)=>{
                         running = list.length > 0
                         if (!running) {
-                            await interaction.editReply('Server is down!');
+                            await interaction.reply({embeds:[ServerDown()]});
                         } else {
-                            await interaction.editReply('Server is running!');
+                            await interaction.reply({embeds:[ServerUp()]});
                         }
                     }),(err)=>{
                         console.log(err.stack || err);

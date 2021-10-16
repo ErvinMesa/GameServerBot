@@ -1,5 +1,6 @@
 const find = require('find-process');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const {ServerListEmbed,Loading,ServerIsDown,ServerShutdown} = require('../Embeds/premade-embeds')
 const {kill} = require('process');
 
 module.exports = {
@@ -12,7 +13,9 @@ module.exports = {
                 .setRequired(true)
                 .addChoice('Left 4 Dead 2','l4d2')),
 	async execute(interaction) {
-        await interaction.reply('Trying to shutdown!');
+        await interaction.reply({embeds:[ServerDown()]}).then(msg=>{
+            setTimeout(()=>interaction.deleteReply(),3000);
+        });
         switch(interaction.options.getString('game')){
             case 'l4d2':
                 await find('name','srcds').then(async (list)=>{
