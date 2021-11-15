@@ -13,18 +13,21 @@ module.exports = {
                 .setRequired(true)
                 .addChoice('Left 4 Dead 2','l4d2')),
 	async execute(interaction) {
-        await interaction.reply({embeds:[ServerDown()]}).then(msg=>{
-            setTimeout(()=>interaction.deleteReply(),3000);
-        });
+        await interaction.reply({embeds:[Loading()]})
+        await setTimeout(()=>{interaction.deleteReply()},3000)
         switch(interaction.options.getString('game')){
             case 'l4d2':
                 await find('name','srcds').then(async (list)=>{
                     running = list.length > 0;
                     if(!running){
-                        await interaction.followUp('Server is already down!');
+                        await interaction.followUp({embeds:[ServerIsDown()]});
                     } else {
-                        list.forEach(item=>kill(item.pid))
-                        await interaction.followUp('Server shutting down!');
+                        try {
+                            list.forEach(item=>kill(item.pid))
+                        } catch (error) {
+                            console.log(err.stack || err);
+                        }
+                        await interaction.followUp({embeds:[ServerShutdown()]});
                     }
                 },(err)=>{
                     console.log(err.stack || err);

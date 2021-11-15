@@ -1,10 +1,11 @@
 const find = require('find-process');
 const {ServerListEmbed,ServerStart,ServerUp,Loading} = require('../Embeds/premade-embeds')
+const {l4d2launchparams, kf2launchparams} = require("../config.json")
 // const wait = require('util').promisify(setTimeout);
 
-function runl4d2(){
+function runserver(server){
     const { exec } = require('child_process');
-    exec('"D:\\Steam Library\\steamapps\\common\\Left 4 Dead 2 Dedicated Server\\srcds.exe" -console -game left4dead2 +maxplayers 16 +port 27020 +exec server.cfg +map c1m1_hotel', (err, stdout, stderr) => {
+    exec(server, (err, stdout, stderr) => {
         if (err) {
             return;
         }
@@ -32,7 +33,20 @@ module.exports = {
                     find('name','srcds').then(async (list)=>{
                             running = list.length > 0
                             if (!running) {
-                                runl4d2()
+                                runserver(l4d2launchparams)
+                                await message.channel.send({embeds:[ServerStart()]});
+                            } else {
+                                await message.channel.send({embeds:[ServerUp()]});
+                            }
+                        }),(err)=>{
+                            console.log(err.stack || err);
+                            (err)
+                    }
+                } else if(/(kf)+|((killing floor)+)/.test(server)){
+                    find('name','KFServer').then(async (list)=>{
+                            running = list.length > 0
+                            if (!running) {
+                                runserver(kf2launchparams)
                                 await message.channel.send({embeds:[ServerStart()]});
                             } else {
                                 await message.channel.send({embeds:[ServerUp()]});

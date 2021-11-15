@@ -1,9 +1,10 @@
 const find = require('find-process');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const {ServerStart,ServerUp,Loading} = require('../Embeds/premade-embeds')
-function runl4d2(){
+const {l4d2launchparams} = require('../config.json')
+function runserver(server){
     const { exec } = require('child_process');
-    exec('"D:\\Steam Library\\steamapps\\common\\Left 4 Dead 2 Dedicated Server\\srcds.exe" -console -game left4dead2 +maxplayers 16 +port 27020 +exec server.cfg +map c1m1_hotel', (err, stdout, stderr) => {
+    exec(server, (err, stdout, stderr) => {
         if (err) {
             return;
         }
@@ -31,14 +32,13 @@ module.exports = {
                 .setRequired(true)
                 .addChoice('Left 4 Dead 2','l4d2')),
 	async execute(interaction) {
-        await interaction.reply({embeds:[Loading()]}).then(msg=>{
-            setTimeout(() => msg.deleteReply(), 3000)
-        });
+        await interaction.reply({embeds:[Loading()]})
+        await setTimeout(()=>{interaction.deleteReply()}, 3000)
         switch(interaction.options.getString('game')){
             case 'l4d2':
                 await is_running('srcds').then(res=>{
                     if(!res){
-                        runl4d2()
+                        runserver(l4d2launchparams)
                         interaction.editReply({embeds:[ServerStart()]});
                     } else {
                         interaction.editReply({embeds:[ServerUp()]});

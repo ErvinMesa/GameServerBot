@@ -62,4 +62,40 @@ const ServerListEmbed = (author) => {return new MessageEmbed()
     .setFooter('Bot by RayveN', 'https://cdn.discordapp.com/attachments/853152061209313291/898741980262174740/Screenshot_2021-05-29_203737.png');
 }
 
-module.exports = {ServerStart, ServerDown, ServerListEmbed, ServerUp, Loading, ServerIsDown,ServerShutdown}
+const ServerListHelp = (author) => {return new MessageEmbed()
+    .setTitle('Server List!')
+    .setColor('#ff82ec')
+    .setThumbnail('https://cdn.discordapp.com/attachments/853152061209313291/898740650575548426/848990483086966844.png')
+    .addFields({
+        name:"Server List",
+        value:`Here are the available servers!`
+    },{
+        name:"Left 4 Dead 2",
+        value: "l4d2, left 4 dead 2"
+    })
+    .setFooter('Bot by RayveN', 'https://cdn.discordapp.com/attachments/853152061209313291/898741980262174740/Screenshot_2021-05-29_203737.png');
+}
+
+const Help = () => {return new MessageEmbed()
+    .setTitle('Commands List!')
+    .setColor('#ff82ec')
+    .setThumbnail('https://cdn.discordapp.com/attachments/853152061209313291/898740650575548426/848990483086966844.png')
+    .addFields({
+        name:"Help",
+        value:'Shows this message',
+        inline: true
+    },{
+        name:"Run Server",
+        value: "!run-server <Game>",
+        inline: true
+    },{
+        name:"Stop Server",
+        value: "!stop-server <Game>"
+    },{
+        name:"Server Status",
+        value: "!server-stat <Game>"
+    })
+    .setFooter('Bot by RayveN', 'https://cdn.discordapp.com/attachments/853152061209313291/898741980262174740/Screenshot_2021-05-29_203737.png');
+}
+
+module.exports = {ServerStart, ServerDown, ServerListEmbed, ServerUp, Loading, ServerIsDown,ServerShutdown,Help,ServerListHelp}

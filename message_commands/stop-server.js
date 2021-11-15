@@ -23,7 +23,28 @@ module.exports = {
                             if(!running){
                                 await message.channel.send({embeds:[ServerIsDown()]});
                             } else {
-                                list.forEach(item=>kill(item.pid))
+                                try {
+                                    list.forEach(item=>kill(item.pid))
+                                } catch (error) {
+                                    console.log(err.stack || err);
+                                }
+                                await message.channel.send({embeds:[ServerShutdown()]});
+                            }
+                        }),(err)=>{
+                            console.log(err.stack || err);
+                            (err)
+                    }
+                } else if(/(kf)+|((killing floor)+)/.test(server)){
+                    find('name','kfserver').then(async (list)=>{
+                            running = list.length > 0
+                            if(!running){
+                                await message.channel.send({embeds:[ServerIsDown()]});
+                            } else {
+                                try {
+                                    list.forEach(item=>kill(item.pid))
+                                } catch (error) {
+                                    console.log(err.stack || err);
+                                }
                                 await message.channel.send({embeds:[ServerShutdown()]});
                             }
                         }),(err)=>{
